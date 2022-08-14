@@ -7,9 +7,27 @@
   <p class="text-center mt-5">Paste the URL to be shortened</p>
   <form action="/" method="POST">
     <div class="input-group mx-auto" style="width: 65%;">
-      <input type="url" class="form-control" name="url" placeholder="Enter the link here..." aria-label="Url shortener"
-        aria-describedby="button-addon2" required>
+      <input type="url" class="form-control" name="url" placeholder="Enter the link here..." value="{{original}}"
+        aria-label="Url shortener" aria-describedby="button-addon2" required>
       <button class="btn btn-success" type="submit" id="button-addon2">Shorten URL</button>
     </div>
   </form>
 </div>
+
+{{!-- show new url --}}
+{{#if newUrl}}
+<div class="alert alert-info mx-auto text-center mt-2" style="width: 60%;" role="alert">
+  <span class="me-2">Your shortened URL:</span>
+  <code id="urlGenerated"><a href="{{original}}" target="_blank">https://urlshortener/{{newUrl}}</a></code>
+  <button class="btn btn-outline-danger" onclick="urlCopy()">Copy</button>
+</div>
+{{/if}}
+
+<script>
+  function urlCopy() {
+    const urlGenerated = document.getElementById("urlGenerated").innerText
+    navigator.clipboard.writeText(urlGenerated)
+      .then(() => alert("URL Copied!"))
+      .catch(error => console.log(error))
+  }
+</script>

@@ -9,9 +9,8 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   const original = req.body.url
-  console.log(original)
-  console.log(generateUrl())
-  res.render('index')
+  const newUrl = generateUrl()
+  res.render('index', { original, newUrl })
 })
 
 // 匯出路由模組

@@ -18,7 +18,7 @@
 {{#if newUrl}}
 <div class="alert alert-info mx-auto text-center mt-2" style="width: 60%;" role="alert">
   <span class="me-2">Your shortened URL:</span>
-  <code id="urlGenerated"><a href="{{original}}" target="_blank">https://urlshortener/{{newUrl}}</a></code>
+  <code id="urlGenerated"><a href="{{original}}" target="_blank">{{host}}/{{newUrl}}</a></code>
   <button class="btn btn-outline-danger" onclick="urlCopy()">Copy</button>
 </div>
 {{/if}}

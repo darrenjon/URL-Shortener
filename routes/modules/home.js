@@ -7,11 +7,34 @@ router.get('/', (req, res) => {
   res.render('index')
 })
 
+//shorten the long URL
 router.post('/', (req, res) => {
   const original = req.body.url
+  const host = req.headers.origin
   const newUrl = generateUrl()
-  res.render('index', { original, newUrl })
+  shortUrl.findOne({ original })
+    .lean()
+    .then(data => {
+      if (data) {
+        return res.render('index', { host, newUrl: data.newUrl, original })
+      } else {
+        //create new URL to database and render data
+        shortUrl.create({ original, newUrl })
+        res.render('index', { host, newUrl, original })
+      }
+    })
+    .catch(error => console.log(error))
 })
 
-// 匯出路由模組
+//short URL redirects to the actual URL destination
+router.get("/:newUrl", (req, res) => {
+  const newUrl = req.params.newUrl
+  shortUrl.findOne({ newUrl })
+    .lean()
+    .then(data => {
+      if (data) return res.redirect(data.original)
+    })
+    .catch(error => console.log(error))
+})
+
 module.exports = router
